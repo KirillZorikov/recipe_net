@@ -114,3 +114,52 @@ class Recipe(models.Model):
         self.slug = slugify(f'{self.pk}-{self.title}')
         self.save()
 
+
+class Favorites(models.Model):
+    """user's favorites list"""
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             related_name='favorites',
+                             verbose_name='User',
+                             help_text='The one who adds to favorites')
+    recipes = models.ManyToManyField(Recipe,
+                                     verbose_name='Recipes',
+                                     related_name='favorites',
+                                     help_text='Recipes in the favorites')
+
+    class Meta:
+        ordering = ('user',)
+        get_latest_by = 'id'
+        verbose_name = 'Favorites'
+        verbose_name_plural = 'Favorites'
+
+    def __str__(self):
+        return f'{self.user.username}\'s favorites'
+
+
+class Follow(models.Model):
+    """user's follows"""
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             related_name='follower',
+                             verbose_name='Follower',
+                             help_text='The one who makes the follow')
+    author = models.ForeignKey(User,
+                               on_delete=models.CASCADE,
+                               related_name='following',
+                               verbose_name='Following',
+                               help_text='The one user follow to')
+
+    class Meta:
+        ordering = ('user',)
+        unique_together = ('user', 'author')
+        verbose_name = 'Follow'
+        verbose_name_plural = 'Follows'
+        constraints = [
+            models.UniqueConstraint(
+                fields=('user', 'author'), name='duplicate_follow'
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.user.username} follow {self.author.username}'
