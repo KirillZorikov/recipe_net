@@ -1,10 +1,16 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Ingredient, Tag, Recipe, Unit, Product
+from .models import Ingredient, Tag, Recipe, Unit, Product, Favorites, Follow
 
-for model in [Unit, Product, Ingredient]:
+for model in [Unit, Product, Favorites, Follow]:
     admin.site.register(model)
+
+
+@admin.register(Ingredient)
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ('title', 'unit')
+    list_filter = ('title',)
 
 
 @admin.register(Tag)
@@ -17,12 +23,13 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'title', 'author', 'description', 'get_image')
+    list_display = ('pk', 'title', 'author', 'description',
+                    'slug', 'get_image')
     search_fields = ('title', 'author')
     list_filter = ('title', 'author', 'tags')
-    readonly_fields = ('get_image',)
-    fields = ('title', 'author', 'description',
-              'ingredients', 'tags', 'time',
+    readonly_fields = ('get_image', 'favorites_count')
+    fields = ('title', 'author', 'description', 'ingredients',
+              'tags', 'time', 'favorites_count',
               'image', 'get_image')
     save_on_top = True
     save_as = True
@@ -31,9 +38,16 @@ class RecipeAdmin(admin.ModelAdmin):
 
     def get_image(self, obj):
         if obj.image:
+            link = obj.image.url
             return mark_safe(
-                f'<img src="{obj.image.url}" width="50">'
+                f'<a href="{link}" target="_blank">'
+                f'<img src="{link}" width="50">'
+                f'</a>'
             )
         return '-empty-'
 
+    def favorites_count(self, obj):
+        return obj.favorites.count()
+
     get_image.short_description = 'Thumbnail'
+    favorites_count.short_description = 'Favorites count'
