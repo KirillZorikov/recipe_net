@@ -1,0 +1,38 @@
+[
+{
+  "model": "api_user.customuser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$bxdgqMAfErsP5IVCpc3NtK$fQzKRkhHoFZcSGfUR8lS8wUjoYNJ950VkFJAW3ARIBY=",
+    "last_login": "2021-06-01T16:54:25.275Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2021-06-01T16:53:53.367Z",
+    "email": "asa@sds.ru",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api_user.customuser",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$HrIjx54Q4iG9IXMFC9JijP$wrEctSp3dbhjOCoPOfAFI+0thVpdfWGMbg+KNVEYGc8=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "test",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-06-01T22:58:47.425Z",
+    "email": "",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
