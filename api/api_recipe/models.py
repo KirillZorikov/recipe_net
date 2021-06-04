@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.template.defaultfilters import slugify
+
+from pytils.translit import slugify
 
 User = get_user_model()
 
@@ -24,15 +25,6 @@ class Tag(models.Model):
         return self.title
 
 
-class Product(models.Model):
-    title = models.CharField(max_length=100,
-                             verbose_name='Title',
-                             help_text='Product title')
-
-    def __str__(self):
-        return self.title
-
-
 class Unit(models.Model):
     """product measurement unit"""
     title = models.CharField(max_length=50,
@@ -43,28 +35,37 @@ class Unit(models.Model):
         return self.title
 
 
-class Ingredient(models.Model):
-    """recipe ingredient"""
-    title = models.ForeignKey(Product,
-                              on_delete=models.CASCADE,
-                              verbose_name='Title',
-                              help_text='Product title')
+class Product(models.Model):
+    title = models.CharField(max_length=100,
+                             verbose_name='Title',
+                             help_text='Product title')
     unit = models.ForeignKey(Unit,
                              on_delete=models.CASCADE,
                              verbose_name='Unit',
                              help_text='Product unit')
+
+    def __str__(self):
+        return self.title
+
+
+class Ingredient(models.Model):
+    """recipe ingredient"""
+    product = models.ForeignKey(Product,
+                                on_delete=models.CASCADE,
+                                verbose_name='Product',
+                                help_text='Product: name + unit')
     quantity = models.PositiveSmallIntegerField(db_index=True,
                                                 verbose_name='Quantity',
                                                 help_text='Product quantity')
 
     class Meta:
-        ordering = ('title',)
+        ordering = ('product__title',)
         get_latest_by = 'id'
         verbose_name = 'Ingredient'
         verbose_name_plural = 'Ingredients'
 
     def __str__(self):
-        return self.title.title
+        return self.product.title
 
 
 class Recipe(models.Model):
@@ -109,6 +110,7 @@ class Recipe(models.Model):
 
     def save(self, *args, **kwargs):
         super(Recipe, self).save(*args, **kwargs)
+        print(self.slug)
         if self.slug:
             return
         self.slug = slugify(f'{self.pk}-{self.title}')
@@ -122,16 +124,22 @@ class Favorites(models.Model):
                              related_name='favorites',
                              verbose_name='User',
                              help_text='The one who adds to favorites')
-    recipes = models.ManyToManyField(Recipe,
-                                     verbose_name='Recipes',
-                                     related_name='favorites',
-                                     help_text='Recipes in the favorites')
+    recipe = models.ForeignKey(Recipe,
+                               on_delete=models.CASCADE,
+                               related_name='favorites',
+                               verbose_name='Recipes',
+                               help_text='Recipe in the favorites')
 
     class Meta:
         ordering = ('user',)
         get_latest_by = 'id'
         verbose_name = 'Favorites'
         verbose_name_plural = 'Favorites'
+        constraints = [
+            models.UniqueConstraint(
+                fields=('user', 'recipe'), name='duplicate_favorites'
+            ),
+        ]
 
     def __str__(self):
         return f'{self.user.username}\'s favorites'

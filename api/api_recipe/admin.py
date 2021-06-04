@@ -10,7 +10,14 @@ for model in [Unit, Product, Favorites, Follow]:
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('title', 'unit')
-    list_filter = ('title',)
+    list_filter = ('product__title',)
+
+    def title(self, obj):
+        return obj.product.title
+
+    def unit(self, obj):
+        return obj.product.unit
+
 
 
 @admin.register(Tag)
