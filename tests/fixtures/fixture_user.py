@@ -1,16 +1,17 @@
 import pytest
 
 
-@pytest.fixture
-def admin(django_user_model):
-    return django_user_model.objects.create_superuser(
-        username='TestUser', email='k.zorikov@yandex.ru', password='1234567'
-    )
+# @pytest.fixture
+# def admin(django_user_model):
+#     return django_user_model.objects.create_superuser(
+#         username='admin', email='admin@yamdb.fake', password='admin'
+#     )
 
 
 @pytest.fixture
-def token(admin):
+def token(db_user, django_user_model):
     from rest_framework_simplejwt.tokens import RefreshToken
+    admin = django_user_model.objects.get(username='admin')
     refresh = RefreshToken.for_user(admin)
 
     return {

@@ -1,4 +1,7 @@
-import pytest, os, glob, re
+import glob
+import os
+import pytest
+import re
 
 
 class TestAPIUser:
@@ -40,10 +43,10 @@ class TestAPIUser:
                                                 'successfully.')
 
     @pytest.mark.django_db(transaction=True)
-    def test_04_reset_password_request(self, user_client, admin,
+    def test_04_reset_password_request(self, user_client,
                                        settings_override_smtp):
         data = {
-            'email': admin.email,
+            'email': 'asa@sds.ru',
         }
         response = user_client.post('/api/v1/auth/reset_password',
                                     data=data)
