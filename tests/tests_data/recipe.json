@@ -1,0 +1,43 @@
+[
+{
+  "model": "api_recipe.recipe",
+  "pk": 1,
+  "fields": {
+    "title": "молоко",
+    "author": 1,
+    "image": "images/mint_E7doYgs.jpeg",
+    "description": "вкусно",
+    "time": 1,
+    "slug": "1-moloko",
+    "ingredients": [
+      1
+    ],
+    "tags": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "api_recipe.recipe",
+  "pk": 2,
+  "fields": {
+    "title": "яблоко с мёдом",
+    "author": 3,
+    "image": "images/mint_cat_sIdLioT.jpg",
+    "description": "пойдёт",
+    "time": 5,
+    "slug": "2-yabloko-s-myodom",
+    "ingredients": [
+      3,
+      2
+    ],
+    "tags": [
+      1,
+      2,
+      3
+    ]
+  }
+}
+]

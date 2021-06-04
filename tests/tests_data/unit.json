@@ -1,0 +1,219 @@
+[
+{
+  "model": "api_recipe.unit",
+  "pk": 1,
+  "fields": {
+    "title": "г"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 2,
+  "fields": {
+    "title": "стакан"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 3,
+  "fields": {
+    "title": "по вкусу"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 4,
+  "fields": {
+    "title": "ст. л."
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 5,
+  "fields": {
+    "title": "шт."
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 6,
+  "fields": {
+    "title": "мл"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 7,
+  "fields": {
+    "title": "ч. л."
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 8,
+  "fields": {
+    "title": "капля"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 9,
+  "fields": {
+    "title": "звездочка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 10,
+  "fields": {
+    "title": "щепотка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 11,
+  "fields": {
+    "title": "горсть"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 12,
+  "fields": {
+    "title": "кусок"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 13,
+  "fields": {
+    "title": "кг"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 14,
+  "fields": {
+    "title": "пакет"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 15,
+  "fields": {
+    "title": "пучок"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 16,
+  "fields": {
+    "title": "долька"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 17,
+  "fields": {
+    "title": ""
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 18,
+  "fields": {
+    "title": "банка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 19,
+  "fields": {
+    "title": "упаковка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 20,
+  "fields": {
+    "title": "зубчик"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 21,
+  "fields": {
+    "title": "пласт"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 22,
+  "fields": {
+    "title": "пачка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 23,
+  "fields": {
+    "title": "тушка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 24,
+  "fields": {
+    "title": "стручок"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 25,
+  "fields": {
+    "title": "веточка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 26,
+  "fields": {
+    "title": "бутылка"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 27,
+  "fields": {
+    "title": "л"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 28,
+  "fields": {
+    "title": "батон"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 29,
+  "fields": {
+    "title": "пакетик"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 30,
+  "fields": {
+    "title": "лист"
+  }
+},
+{
+  "model": "api_recipe.unit",
+  "pk": 31,
+  "fields": {
+    "title": "стебель"
+  }
+}
+]

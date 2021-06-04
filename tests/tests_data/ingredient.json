@@ -1,0 +1,26 @@
+[
+{
+  "model": "api_recipe.ingredient",
+  "pk": 1,
+  "fields": {
+    "product": 1034,
+    "quantity": 12
+  }
+},
+{
+  "model": "api_recipe.ingredient",
+  "pk": 2,
+  "fields": {
+    "product": 2142,
+    "quantity": 1
+  }
+},
+{
+  "model": "api_recipe.ingredient",
+  "pk": 3,
+  "fields": {
+    "product": 993,
+    "quantity": 1
+  }
+}
+]

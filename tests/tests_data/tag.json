@@ -1,0 +1,26 @@
+[
+{
+  "model": "api_recipe.tag",
+  "pk": 1,
+  "fields": {
+    "title": "завтрак",
+    "slug": "zavtrak"
+  }
+},
+{
+  "model": "api_recipe.tag",
+  "pk": 2,
+  "fields": {
+    "title": "обед",
+    "slug": "obed"
+  }
+},
+{
+  "model": "api_recipe.tag",
+  "pk": 3,
+  "fields": {
+    "title": "ужин",
+    "slug": "uzhin"
+  }
+}
+]

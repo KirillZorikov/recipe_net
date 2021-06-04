@@ -1,0 +1,10 @@
+[
+{
+  "model": "api_recipe.follow",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "author": 3
+  }
+}
+]
