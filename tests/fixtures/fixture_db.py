@@ -44,9 +44,9 @@ def db_favorites(request, django_db_setup, django_db_blocker, db_recipe):
 
 
 @pytest.fixture
-def sent_email(client, admin, settings_override_smtp):
+def sent_email(client, settings_override_smtp):
     data = {
-        'email': admin.email,
+        'email': 'asa@sds.ru',
     }
     client.post('/api/v1/auth/reset_password',
                 data=data)
