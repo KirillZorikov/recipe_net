@@ -18,7 +18,7 @@ class TestAPIUser:
     @pytest.mark.django_db(transaction=True)
     def test_02_user_register(self, client, settings_override_recaptcha):
         data = {
-            'username': 'test',
+            'username': 'tests',
             'password': '123test456',
             'password2': '123test456',
             'email': 'test@ya.ru',
@@ -31,7 +31,7 @@ class TestAPIUser:
     @pytest.mark.django_db(transaction=True)
     def test_03_change_password(self, user_client):
         data = {
-            'old_password': '1234567',
+            'old_password': 'admin',
             'password': '123admin456',
             'password2': '123admin456'
         }
