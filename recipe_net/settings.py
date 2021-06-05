@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if 'SECRET_KEY' not in os.environ:
     from dotenv import load_dotenv
 
-    load_dotenv(os.path.join(BASE_DIR, 'env/.env.dev'))
+    load_dotenv(os.path.join(BASE_DIR, '.env.dev'))
 
 DEBUG = int(os.environ.get('DEBUG', default=1))
 
@@ -157,5 +157,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'test@ya.ru')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '12345')
