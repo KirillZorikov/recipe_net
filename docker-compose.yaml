@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  recipe_net_prod:
+    build: ./
+    command: gunicorn recipe_net.wsgi:application --bind 0.0.0.0:8000
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - static_value:/home/recipe/recipe_net/static/
+      - media_value:/home/recipe/recipe_net/media/
+    env_file:
+      - ./env/.env.prod
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./env/.env.db
+  nginx:
+    image: nginx:1.19.0-alpine
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - static_value:/home/recipe/recipe_net/static/
+      - media_value:/home/recipe/recipe_net/media/
+    ports:
+      - 80:80
+    depends_on:
+      - recipe_net_prod
+
+volumes:
+  postgres_data:
+  static_value:
+  media_value:
