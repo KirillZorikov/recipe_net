@@ -3,6 +3,8 @@ import os
 import pytest
 import re
 
+from django.conf import settings
+
 
 class TestAPIUser:
 
@@ -57,7 +59,7 @@ class TestAPIUser:
     @pytest.mark.django_db(transaction=True)
     def test_05_reset_password_complete(self, client,
                                         settings_override_smtp, sent_email):
-        list_of_files = glob.glob('tests/sent_emails/*')
+        list_of_files = glob.glob(str(settings.BASE_DIR / 'tests/sent_emails/*'))
         latest_file = max(list_of_files, key=os.path.getctime)
         with open(latest_file, 'rt') as file:
             email_text = file.read()
