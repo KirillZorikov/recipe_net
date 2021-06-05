@@ -12,6 +12,8 @@ class Tag(models.Model):
                              verbose_name='Title',
                              help_text='Tag title')
     slug = models.SlugField(max_length=50,
+                            blank=True,
+                            null=True,
                             verbose_name='Slug',
                             help_text='Unique key for url generation')
 
@@ -23,6 +25,11 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Tag, self).save(*args, **kwargs)
 
 
 class Unit(models.Model):
@@ -110,7 +117,6 @@ class Recipe(models.Model):
 
     def save(self, *args, **kwargs):
         super(Recipe, self).save(*args, **kwargs)
-        print(self.slug)
         if self.slug:
             return
         self.slug = slugify(f'{self.pk}-{self.title}')

@@ -19,6 +19,11 @@ router.register(
     views.FollowViewSet,
     basename='follow',
 )
+router.register(
+    'recipes',
+    views.RecipeViewSet,
+    basename='recipes',
+)
 urlpatterns = [
     re_path('v1/', include(router.urls)),
 ]

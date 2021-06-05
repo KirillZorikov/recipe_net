@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+import json
+
 from .models import (User,
                      Product,
                      Tag,
@@ -11,26 +13,39 @@ from .models import (User,
                      Favorites)
 
 
-class ProductRelatedField(serializers.RelatedField):
+class TagRelatedField(serializers.RelatedField):
     def to_representation(self, value):
-        return {'title': value.title, 'unit': value.unit.title}
+        return {'title': value.title, 'slug': value.slug}
 
     def to_internal_value(self, data):
         try:
-            unit, _ = Unit.objects.get_or_create(title=data['unit'])
-            product, _ = Product.objects.get_or_create(title=data['title'],
-                                                       unit=unit)
+            tag = Tag.objects.get(slug=data)
         except ValueError:
             raise ValidationError()
-        return product
+        return tag
 
 
-class IngredientSerializer(serializers.ModelSerializer):
-    product = ProductRelatedField(queryset=Product.objects.all())
+class IngredientRelatedField(serializers.RelatedField):
+    def to_representation(self, value):
+        return {'title': value.product.title,
+                'unit': value.product.unit.title,
+                'quantity': value.quantity}
 
-    class Meta:
-        model = Ingredient
-        fields = ('product', 'quantity')
+    def to_internal_value(self, data):
+        try:
+            data = json.loads(data.replace('\'', '"'))
+            unit, _ = Unit.objects.get_or_create(title=data.get('unit'))
+            product, _ = Product.objects.get_or_create(
+                title=data.get('title'),
+                unit=unit
+            )
+            ingredient, _ = Ingredient.objects.get_or_create(
+                product=product,
+                quantity=data.get('quantity')
+            )
+        except ValueError:
+            raise ValidationError()
+        return ingredient
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -40,8 +55,10 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True)
-    ingredients = IngredientSerializer(many=True)
+    tags = TagRelatedField(queryset=Tag.objects.all(),
+                           many=True)
+    ingredients = IngredientRelatedField(queryset=Ingredient.objects.all(),
+                                         many=True)
 
     class Meta:
         model = Recipe
