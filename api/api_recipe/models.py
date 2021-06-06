@@ -1,9 +1,36 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models import Exists, OuterRef
 
 from pytils.translit import slugify
 
 User = get_user_model()
+
+
+class ModelQuerySet(models.QuerySet):
+    def annotate_additional_fields(self, user):
+        return self.annotate(
+            in_favorites=Exists(
+                Favorites.objects.filter(
+                    user=user.id,
+                    recipe_id=OuterRef('id')
+                ).only('id')
+            )
+        ).annotate(
+            do_follow=Exists(
+                Follow.objects.filter(
+                    user=user.id,
+                    author=OuterRef('author')
+                ).only('id')
+            )
+        ).annotate(
+            in_purchase=Exists(
+                Purchase.objects.filter(
+                    user=user.id,
+                    recipe_id=OuterRef('id')
+                ).only('id')
+            )
+        )
 
 
 class Tag(models.Model):
@@ -106,6 +133,8 @@ class Recipe(models.Model):
                             verbose_name='Slug',
                             help_text='Unique key for url generation')
 
+    objects = ModelQuerySet.as_manager()
+
     class Meta:
         ordering = ('title', 'author')
         get_latest_by = 'id'
@@ -133,7 +162,7 @@ class Favorites(models.Model):
     recipe = models.ForeignKey(Recipe,
                                on_delete=models.CASCADE,
                                related_name='favorites',
-                               verbose_name='Recipes',
+                               verbose_name='Recipe',
                                help_text='Recipe in the favorites')
 
     class Meta:
@@ -177,3 +206,31 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.user.username} follow {self.author.username}'
+
+
+class Purchase(models.Model):
+    """user's purchase"""
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             related_name='purchase',
+                             verbose_name='User',
+                             help_text='The one who adds to purchase list')
+    recipe = models.ForeignKey(Recipe,
+                               on_delete=models.CASCADE,
+                               related_name='purchase',
+                               verbose_name='Recipe',
+                               help_text='Recipe in the purchase list')
+
+    class Meta:
+        ordering = ('user',)
+        get_latest_by = 'id'
+        verbose_name = 'Purchase'
+        verbose_name_plural = 'Purchases'
+        constraints = [
+            models.UniqueConstraint(
+                fields=('user', 'recipe'), name='duplicate_purchase'
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.user.username} add {self.recipe.title} to purchase list'
