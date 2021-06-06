@@ -15,9 +15,14 @@ router.register(
     basename='tags',
 )
 router.register(
-    'follow',
+    'purchases',
+    views.PurchaseViewSet,
+    basename='purchases',
+)
+router.register(
+    'follows',
     views.FollowViewSet,
-    basename='follow',
+    basename='follows',
 )
 router.register(
     'recipes',

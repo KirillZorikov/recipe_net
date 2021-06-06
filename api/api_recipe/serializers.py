@@ -3,14 +3,7 @@ from rest_framework.exceptions import ValidationError
 
 import json
 
-from .models import (User,
-                     Product,
-                     Tag,
-                     Recipe,
-                     Unit,
-                     Ingredient,
-                     Follow,
-                     Favorites)
+from . import models
 
 
 class TagRelatedField(serializers.RelatedField):
@@ -19,7 +12,7 @@ class TagRelatedField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
-            tag = Tag.objects.get(slug=data)
+            tag = models.Tag.objects.get(slug=data)
         except ValueError:
             raise ValidationError()
         return tag
@@ -34,12 +27,12 @@ class IngredientRelatedField(serializers.RelatedField):
     def to_internal_value(self, data):
         try:
             data = json.loads(data.replace('\'', '"'))
-            unit, _ = Unit.objects.get_or_create(title=data.get('unit'))
-            product, _ = Product.objects.get_or_create(
+            unit, _ = models.Unit.objects.get_or_create(title=data.get('unit'))
+            product, _ = models.Product.objects.get_or_create(
                 title=data.get('title'),
                 unit=unit
             )
-            ingredient, _ = Ingredient.objects.get_or_create(
+            ingredient, _ = models.Ingredient.objects.get_or_create(
                 product=product,
                 quantity=data.get('quantity')
             )
@@ -50,18 +43,25 @@ class IngredientRelatedField(serializers.RelatedField):
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tag
+        model = models.Tag
         fields = ('slug', 'title')
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    tags = TagRelatedField(queryset=Tag.objects.all(),
-                           many=True)
-    ingredients = IngredientRelatedField(queryset=Ingredient.objects.all(),
-                                         many=True)
+    tags = TagRelatedField(
+        queryset=models.Tag.objects.all(),
+        many=True
+    )
+    ingredients = IngredientRelatedField(
+        queryset=models.Ingredient.objects.all(),
+        many=True
+    )
+    in_favorites = serializers.BooleanField(read_only=True)
+    do_follow = serializers.BooleanField(read_only=True)
+    in_purchase = serializers.BooleanField(read_only=True)
 
     class Meta:
-        model = Recipe
+        model = models.Recipe
         fields = ('title',
                   'author',
                   'image',
@@ -69,18 +69,21 @@ class RecipeSerializer(serializers.ModelSerializer):
                   'ingredients',
                   'tags',
                   'time',
-                  'slug')
+                  'slug',
+                  'in_favorites',
+                  'do_follow',
+                  'in_purchase')
 
 
 class FollowSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         slug_field='username',
-        queryset=User.objects.all(),
+        queryset=models.User.objects.all(),
         default=serializers.CurrentUserDefault(),
     )
     author = serializers.SlugRelatedField(
         slug_field='username',
-        queryset=User.objects.all(),
+        queryset=models.User.objects.all(),
     )
 
     def validate(self, data):
@@ -91,24 +94,51 @@ class FollowSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('user', 'author')
-        model = Follow
+        model = models.Follow
 
 
 class FavoritesSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         slug_field='username',
-        queryset=User.objects.all(),
+        queryset=models.User.objects.all(),
         default=serializers.CurrentUserDefault(),
     )
 
     def validate(self, data):
         """django doesn't do this check itself for favorite and crashes if
         not done, but the follow works well. miracle."""
-        if Favorites.objects.filter(user=data['user'],
-                                    recipe_id=data['recipe']).exists():
+        if models.Favorites.objects.filter(user=data['user'],
+                                           recipe_id=data['recipe']).exists():
             raise serializers.ValidationError('Duplicate favorites.')
         return data
 
     class Meta:
         fields = ('user', 'recipe')
-        model = Favorites
+        model = models.Favorites
+
+
+class PurchaseSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(
+        slug_field='username',
+        queryset=models.User.objects.all(),
+        default=serializers.CurrentUserDefault(),
+    )
+
+    def validate(self, data):
+        if models.Favorites.objects.filter(user=data['user'],
+                                           recipe_id=data['recipe']).exists():
+            raise serializers.ValidationError('Duplicate purchase.')
+        return data
+
+    class Meta:
+        fields = ('user', 'recipe')
+        model = models.Purchase
+
+
+class FollowRecipesSerializer(serializers.ModelSerializer):
+    recipes = RecipeSerializer(many=True,
+                               read_only=True)
+
+    class Meta:
+        fields = ('username', 'recipes')
+        model = models.User

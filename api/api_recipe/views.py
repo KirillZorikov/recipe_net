@@ -1,12 +1,15 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from django.http import HttpResponse
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework import permissions
 
 from . import models
 from . import serializers
+from . import utils
 from . import filters as custom_filters
 from . import permissions as custom_permissions
+from .models import User
 
 
 class TagViewSet(mixins.CreateModelMixin,
@@ -46,6 +49,31 @@ class FavoritesViewSet(mixins.CreateModelMixin,
         return models.Favorites.objects.filter(user=self.request.user)
 
 
+class PurchaseViewSet(mixins.CreateModelMixin,
+                      mixins.ListModelMixin,
+                      mixins.DestroyModelMixin,
+                      viewsets.GenericViewSet):
+    pagination_class = None
+    serializer_class = serializers.FavoritesSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    lookup_field = 'recipe__slug'
+
+    def get_queryset(self):
+        return models.Purchase.objects.filter(user=self.request.user)
+
+    @action(detail=False, methods=('get',))
+    def download(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # if not queryset.exists():
+        #     return HttpResponse(status=404)
+        filename = 'purchases.txt'
+        purchases = utils.make_purchases(self.request.user.username)
+        response = HttpResponse(purchases,
+                                content_type='text/plain; charset=UTF-8')
+        response['Content-Disposition'] = f'attachment; filename={filename}'
+        return response
+
+
 class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = custom_filters.RecipeFilter
@@ -59,7 +87,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=(permissions.IsAuthenticated,)
     )
     def favorites(self, request, *args, **kwargs):
-        """Return all recipes from favorites."""
+        """Return recipes from favorites."""
         return self.list(self, request, *args, **kwargs)
 
     @action(
@@ -67,16 +95,32 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=('get',),
         permission_classes=(permissions.IsAuthenticated,)
     )
-    def follow(self, request, *args, **kwargs):
-        """Return all following's recipes."""
+    def purchases(self, request, *args, **kwargs):
+        """Return recipes from purchase list."""
+        return self.list(self, request, *args, **kwargs)
+
+    @action(
+        detail=False,
+        methods=('get',),
+        permission_classes=(permissions.IsAuthenticated,),
+        serializer_class=serializers.FollowRecipesSerializer,
+        filter_class=None
+    )
+    def follows(self, request, *args, **kwargs):
+        """Return following's recipes."""
         return self.list(self, request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = models.Recipe.objects.all()
+        queryset = models.Recipe.objects.annotate_additional_fields(
+            self.request.user
+        )
         if self.action == 'follow':
-            return queryset.filter(author__following__user=self.request.user)
+            return User.objects.filter(following__user=self.request.user
+                                       ).prefetch_related('recipes')
         if self.action == 'favorites':
             return queryset.filter(author__favorites__user=self.request.user)
+        if self.action == 'purchase':
+            return queryset.filter(author__purchase__user=self.request.user)
         return queryset
 
     def perform_create(self, serializer):
