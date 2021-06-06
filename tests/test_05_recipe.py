@@ -31,7 +31,7 @@ class TestRecipe:
     @pytest.mark.django_db(transaction=True)
     def test_04_get_following_recipes(self, user_client,
                                       db_follow, db_recipe):
-        response = user_client.get(f'/api/v1/recipes/follow')
+        response = user_client.get(f'/api/v1/recipes/follows')
         resource_data = response.json()['response']
         assert response.status_code == 200
         assert len(resource_data) == 1
