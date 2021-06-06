@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Ingredient, Tag, Recipe, Unit, Product, Favorites, Follow
+from .models import (Ingredient, Tag, Recipe, Unit,
+                     Product, Favorites, Follow, Purchase)
 
-for model in [Unit, Product, Favorites, Follow]:
+for model in [Unit, Product, Favorites, Follow, Purchase]:
     admin.site.register(model)
 
 
@@ -17,7 +18,6 @@ class IngredientAdmin(admin.ModelAdmin):
 
     def unit(self, obj):
         return obj.product.unit
-
 
 
 @admin.register(Tag)
