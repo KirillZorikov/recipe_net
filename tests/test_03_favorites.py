@@ -6,7 +6,7 @@ class TestFavorites:
     @pytest.mark.django_db(transaction=True)
     def test_01_add_to_favorites(self, user_client, db_recipe):
         data = {
-            'recipe': 1,
+            'recipe': '1-moloko',
         }
         follow_list_before = user_client.get('/api/v1/favorites').json()
         response = user_client.post('/api/v1/favorites', data=data)
@@ -17,7 +17,7 @@ class TestFavorites:
     @pytest.mark.django_db(transaction=True)
     def test_02_add_to_favorites_unauthorized(self, client, db_user):
         data = {
-            'recipe': 1,
+            'recipe': '1-moloko',
         }
         response = client.post('/api/v1/favorites', data=data)
         assert response.status_code == 401
@@ -25,7 +25,7 @@ class TestFavorites:
     @pytest.mark.django_db(transaction=True)
     def test_03_add_to_favorites_duplicate(self, user_client, db_favorites):
         data = {
-            'recipe': 1,
+            'recipe': '1-moloko',
         }
         response = user_client.post('/api/v1/favorites', data=data)
         response_data = response.json()
@@ -42,7 +42,7 @@ class TestFavorites:
         response_data = response.json()
         assert response.status_code == 400
         assert (response_data.get('recipe') ==
-                ['Invalid pk "666" - object does not exist.'])
+                ['Object with slug=666 does not exist.'])
 
     @pytest.mark.django_db(transaction=True)
     def test_05_delete_favorites(self, user_client, db_favorites):

@@ -43,7 +43,7 @@ class UserRegisterSerializer(serializers.ModelSerializer,
 
     class Meta:
         model = User
-        fields = ('username', 'email',
+        fields = ('first_name', 'username', 'email',
                   'password', 'recaptcha_key',
                   'password2')
         extra_kwargs = {'password': {'write_only': True}}

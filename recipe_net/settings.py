@@ -132,7 +132,7 @@ GOOGLE_RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTHCA_KEY')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
 
-PAGE_SIZE = 10
+PAGE_SIZE = 6
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',

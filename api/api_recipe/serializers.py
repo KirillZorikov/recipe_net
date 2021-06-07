@@ -18,6 +18,18 @@ class TagRelatedField(serializers.RelatedField):
         return tag
 
 
+class AuthorRelatedField(serializers.RelatedField):
+    def to_representation(self, value):
+        return {'username': value.username, 'name': value.first_name}
+
+    def to_internal_value(self, data):
+        try:
+            author = models.User.objects.get(slug=data)
+        except ValueError:
+            raise ValidationError()
+        return author
+
+
 class IngredientRelatedField(serializers.RelatedField):
     def to_representation(self, value):
         return {'title': value.product.title,
@@ -51,6 +63,9 @@ class RecipeSerializer(serializers.ModelSerializer):
     tags = TagRelatedField(
         queryset=models.Tag.objects.all(),
         many=True
+    )
+    author = AuthorRelatedField(
+        queryset=models.User.objects.all()
     )
     ingredients = IngredientRelatedField(
         queryset=models.Ingredient.objects.all(),
@@ -103,6 +118,10 @@ class FavoritesSerializer(serializers.ModelSerializer):
         queryset=models.User.objects.all(),
         default=serializers.CurrentUserDefault(),
     )
+    recipe = serializers.SlugRelatedField(
+        slug_field='slug',
+        queryset=models.Recipe.objects.all(),
+    )
 
     def validate(self, data):
         """django doesn't do this check itself for favorite and crashes if
@@ -122,6 +141,10 @@ class PurchaseSerializer(serializers.ModelSerializer):
         slug_field='username',
         queryset=models.User.objects.all(),
         default=serializers.CurrentUserDefault(),
+    )
+    recipe = serializers.SlugRelatedField(
+        slug_field='slug',
+        queryset=models.Recipe.objects.all(),
     )
 
     def validate(self, data):
