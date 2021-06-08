@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework import permissions
+from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 from . import models
@@ -98,7 +99,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def purchases(self, request, *args, **kwargs):
         """Return recipes from purchase list."""
-        return self.list(self, request, *args, **kwargs)
+        print(self.get_queryset())
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
 
     @action(
         detail=False,
@@ -115,13 +118,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
         queryset = models.Recipe.objects.annotate_additional_fields(
             self.request.user
         )
-        if self.action == 'follow':
+        if self.action == 'follows':
             return User.objects.filter(following__user=self.request.user
                                        ).prefetch_related('recipes')
         if self.action == 'favorites':
             return queryset.filter(author__favorites__user=self.request.user)
-        if self.action == 'purchase':
-            return queryset.filter(author__purchase__user=self.request.user)
+        if self.action == 'purchases':
+            return queryset.filter(purchase_recipe__user=self.request.user)
         return queryset
 
     def perform_create(self, serializer):

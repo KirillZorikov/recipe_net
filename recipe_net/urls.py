@@ -7,7 +7,7 @@ from api.api_user import urls as user_urls
 from api.api_recipe import urls as recipe_urls
 
 urlpatterns = [
-    re_path('admin/', admin.site.urls),
+    re_path('admin_panel/', admin.site.urls),
     re_path('api/', include(user_urls)),
     re_path('api/', include(recipe_urls)),
 ]

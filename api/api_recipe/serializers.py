@@ -24,7 +24,7 @@ class AuthorRelatedField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
-            author = models.User.objects.get(slug=data)
+            author = models.User.objects.get(username=data)
         except ValueError:
             raise ValidationError()
         return author
@@ -149,7 +149,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if models.Purchase.objects.filter(user=data['user'],
-                                           recipe_id=data['recipe']).exists():
+                                          recipe_id=data['recipe']).exists():
             raise serializers.ValidationError('Duplicate purchase.')
         return data
 
@@ -159,9 +159,9 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 
 class FollowRecipesSerializer(serializers.ModelSerializer):
-    recipes = RecipeSerializer(many=True,
-                               read_only=True)
+    recipes = RecipeSerializer(many=True, read_only=True)
+    name = serializers.CharField(source='first_name')
 
     class Meta:
-        fields = ('username', 'recipes')
+        fields = ('username', 'name', 'recipes')
         model = models.User

@@ -212,12 +212,12 @@ class Purchase(models.Model):
     """user's purchase"""
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
-                             related_name='purchase',
+                             related_name='purchase_user',
                              verbose_name='User',
                              help_text='The one who adds to purchase list')
     recipe = models.ForeignKey(Recipe,
                                on_delete=models.CASCADE,
-                               related_name='purchase',
+                               related_name='purchase_recipe',
                                verbose_name='Recipe',
                                help_text='Recipe in the purchase list')
 

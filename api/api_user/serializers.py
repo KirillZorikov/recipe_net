@@ -123,10 +123,11 @@ class ResetPasswordCompleteSerializer(serializers.Serializer):
 
 class UserInfoSerializer(serializers.ModelSerializer):
     do_follow = serializers.SerializerMethodField()
+    name = serializers.CharField(source='first_name')
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'do_follow')
+        fields = ('id', 'username', 'email', 'name', 'do_follow')
 
     def get_do_follow(self, instance):
         user = self.context['request'].user
