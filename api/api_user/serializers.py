@@ -3,6 +3,7 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 from .mixins import RecaptchaValidationMixin
 from .models import User
+from api.api_recipe.models import Follow
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -29,11 +30,11 @@ class AuthUserSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'is_active', 'is_staff', 'access_token',
                             'refresh_token')
 
-    def get_access_token(self, obj):
-        return str(AccessToken.for_user(user=obj))
+    def get_access_token(self, instance):
+        return str(AccessToken.for_user(user=instance))
 
-    def get_refresh_token(self, obj):
-        return str(RefreshToken.for_user(user=obj))
+    def get_refresh_token(self, instance):
+        return str(RefreshToken.for_user(user=instance))
 
 
 class UserRegisterSerializer(serializers.ModelSerializer,
@@ -118,3 +119,17 @@ class ResetPasswordCompleteSerializer(serializers.Serializer):
                 {'password': 'Password fields didn\'t match.'}
             )
         return attrs
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    do_follow = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'do_follow')
+
+    def get_do_follow(self, instance):
+        user = self.context['request'].user
+        return user.is_authenticated and Follow.objects.filter(
+            author=instance, user=user
+        ).exists()

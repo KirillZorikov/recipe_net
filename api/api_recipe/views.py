@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework import permissions
+from django.shortcuts import get_object_or_404
 
 from . import models
 from . import serializers
@@ -54,7 +55,7 @@ class PurchaseViewSet(mixins.CreateModelMixin,
                       mixins.DestroyModelMixin,
                       viewsets.GenericViewSet):
     pagination_class = None
-    serializer_class = serializers.FavoritesSerializer
+    serializer_class = serializers.PurchaseSerializer
     permission_classes = (permissions.IsAuthenticated,)
     lookup_field = 'recipe__slug'
 
@@ -125,3 +126,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+
+class AuthorRecipesViewSet(mixins.ListModelMixin,
+                           viewsets.GenericViewSet):
+    serializer_class = serializers.RecipeSerializer
+    permission_classes = (permissions.AllowAny,)
+    filter_class = custom_filters.RecipeFilter
+    http_method_names = ('get',)
+
+    def get_queryset(self):
+        author = get_object_or_404(User, username=self.kwargs['username'])
+        return models.Recipe.objects.filter(
+            author=author
+        ).annotate_additional_fields(self.request.user)

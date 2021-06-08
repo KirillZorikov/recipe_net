@@ -148,7 +148,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
     )
 
     def validate(self, data):
-        if models.Favorites.objects.filter(user=data['user'],
+        if models.Purchase.objects.filter(user=data['user'],
                                            recipe_id=data['recipe']).exists():
             raise serializers.ValidationError('Duplicate purchase.')
         return data

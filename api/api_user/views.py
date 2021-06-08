@@ -1,5 +1,5 @@
 from django.contrib.auth import logout
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, mixins
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -83,3 +83,11 @@ class AuthViewSet(viewsets.GenericViewSet):
     def get_serializer_class(self):
         if self.action in self.serializer_classes:
             return self.serializer_classes[self.action]
+
+
+class UserInfo(mixins.RetrieveModelMixin,
+               viewsets.GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserInfoSerializer
+    permission_classes = (AllowAny,)
+    lookup_field = 'username'

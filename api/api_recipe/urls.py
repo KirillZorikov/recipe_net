@@ -29,6 +29,11 @@ router.register(
     views.RecipeViewSet,
     basename='recipes',
 )
+router.register(
+    '(?P<username>[^/.]+)/recipes',
+    views.AuthorRecipesViewSet,
+    basename='author',
+)
 urlpatterns = [
     re_path('v1/', include(router.urls)),
 ]
