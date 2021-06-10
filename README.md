@@ -3,7 +3,7 @@
 Backend for the project recipe_net.
 Vue 3 frontend is here: [front](https://github.com/KirillZorikov/recipe_net_front)
 
-Production version on a running server: http://84.252.132.216
+Production version on a running server: http://84.252.132.216:8080
 Admin panel: http://84.252.132.216/admin_panel
 
 recipe_net is an online service where users can publish recipes, 
