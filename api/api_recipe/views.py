@@ -124,7 +124,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if self.action == 'favorites':
             return queryset.filter(favorites__user=self.request.user)
         if self.action == 'purchases':
-            return queryset.filter(purchase_recipe__user=self.request.user)
+            return queryset.filter(purchase__user=self.request.user)
         return queryset
 
     def perform_create(self, serializer):

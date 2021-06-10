@@ -119,6 +119,7 @@ class Recipe(models.Model):
                                    verbose_name='Description',
                                    help_text='Recipe description')
     ingredients = models.ManyToManyField(Ingredient,
+                                         related_name='recipes',
                                          verbose_name='Ingredients',
                                          help_text='Recipe ingredients')
     tags = models.ManyToManyField(Tag,
@@ -212,12 +213,12 @@ class Purchase(models.Model):
     """user's purchase"""
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
-                             related_name='purchase_user',
+                             related_name='purchase',
                              verbose_name='User',
                              help_text='The one who adds to purchase list')
     recipe = models.ForeignKey(Recipe,
                                on_delete=models.CASCADE,
-                               related_name='purchase_recipe',
+                               related_name='purchase',
                                verbose_name='Recipe',
                                help_text='Recipe in the purchase list')
 

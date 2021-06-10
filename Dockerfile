@@ -24,7 +24,6 @@ RUN groupadd ${GROUP} \
     && usermod -aG ${GROUP} ${USER}
 
 RUN mkdir ${PROJECTPATH}
-RUN mkdir ${PROJECTPATH}/static
 
 WORKDIR ${PROJECTPATH}
 
@@ -40,8 +39,6 @@ RUN pip install --no-cache /wheels/*
 COPY . ${PROJECTPATH}
 
 RUN chgrp developer -R ${PROJECTPATH} \
-    && chgrp developer -R ${PROJECTPATH}/static \
-    && chown -R ${USER}:${USER} ${PROJECTPATH}/static \
     && chmod -R 775 ${PROJECTPATH}
 
 USER ${USER}
