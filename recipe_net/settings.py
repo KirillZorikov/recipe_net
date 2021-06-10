@@ -1,3 +1,4 @@
+from corsheaders.defaults import default_headers
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -129,8 +130,17 @@ AUTHENTICATION_BACKENDS = [
 
 GOOGLE_RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTHCA_KEY')
 
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_URLS_REGEX = r'^/api/.*$'
+
+
+CORS_ALLOW_HEADERS = default_headers + (
+    'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Credentials',
+    'Access-Control-Allow-Origin',
+)
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r'^/(api|media)/.*$'
 
 PAGE_SIZE = 6
 REST_FRAMEWORK = {

@@ -79,7 +79,7 @@ class PurchaseViewSet(mixins.CreateModelMixin,
 class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = custom_filters.RecipeFilter
-    permission_classes = (custom_permissions.IsOwnerOrReadOnly,)
+    permission_classes = (custom_permissions.IsOwnerOrReadOnlyOrAdmin,)
     serializer_class = serializers.RecipeSerializer
     lookup_field = 'slug'
 
@@ -122,7 +122,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return User.objects.filter(following__user=self.request.user
                                        ).prefetch_related('recipes')
         if self.action == 'favorites':
-            return queryset.filter(author__favorites__user=self.request.user)
+            return queryset.filter(favorites__user=self.request.user)
         if self.action == 'purchases':
             return queryset.filter(purchase_recipe__user=self.request.user)
         return queryset
@@ -143,3 +143,12 @@ class AuthorRecipesViewSet(mixins.ListModelMixin,
         return models.Recipe.objects.filter(
             author=author
         ).annotate_additional_fields(self.request.user)
+
+
+class ProductViewSet(mixins.ListModelMixin,
+                     viewsets.GenericViewSet):
+    pagination_class = None
+    serializer_class = serializers.ProductSerializer
+    queryset = models.Product.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    http_method_names = ('get',)

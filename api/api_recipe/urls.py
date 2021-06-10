@@ -34,6 +34,11 @@ router.register(
     views.AuthorRecipesViewSet,
     basename='author',
 )
+router.register(
+    'products',
+    views.ProductViewSet,
+    basename='products',
+)
 urlpatterns = [
     re_path('v1/', include(router.urls)),
 ]

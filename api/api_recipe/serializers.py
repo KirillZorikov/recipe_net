@@ -65,7 +65,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         many=True
     )
     author = AuthorRelatedField(
-        queryset=models.User.objects.all()
+        queryset=models.User.objects.all(),
+        required=False
     )
     ingredients = IngredientRelatedField(
         queryset=models.Ingredient.objects.all(),
@@ -165,3 +166,11 @@ class FollowRecipesSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('username', 'name', 'recipes')
         model = models.User
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    unit = serializers.CharField(source='unit.title')
+
+    class Meta:
+        fields = ('title', 'unit')
+        model = models.Product

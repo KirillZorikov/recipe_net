@@ -48,7 +48,7 @@ class TestRecipe:
                                         content_type='image/gif')
         data = {
             'title': 'яблоко с мёдом',
-            'author': 3,
+            'author': 'admin',
             'image': image_data,
             'description': 'пойдёт',
             'time': 5,

@@ -20,21 +20,15 @@ class UserLoginSerializer(serializers.Serializer):
 
 class AuthUserSerializer(serializers.ModelSerializer):
     access_token = serializers.SerializerMethodField()
-    refresh_token = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name',
-                  'last_name', 'access_token',
-                  'refresh_token')
-        read_only_fields = ('id', 'is_active', 'is_staff', 'access_token',
-                            'refresh_token')
+                  'last_name', 'access_token', 'is_staff')
+        read_only_fields = ('id', 'is_active', 'is_staff', 'access_token')
 
     def get_access_token(self, instance):
         return str(AccessToken.for_user(user=instance))
-
-    def get_refresh_token(self, instance):
-        return str(RefreshToken.for_user(user=instance))
 
 
 class UserRegisterSerializer(serializers.ModelSerializer,
