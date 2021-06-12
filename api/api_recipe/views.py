@@ -1,23 +1,25 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from django.http import HttpResponse
-from rest_framework import viewsets, mixins
-from rest_framework.decorators import action
-from rest_framework import permissions
-from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import mixins, permissions, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
-from . import models
-from . import serializers
-from . import utils
 from . import filters as custom_filters
+from . import models
 from . import permissions as custom_permissions
+from . import serializers, utils
 from .models import User
 
 
-class TagViewSet(mixins.CreateModelMixin,
-                 mixins.ListModelMixin,
-                 viewsets.GenericViewSet):
+class CustomModelViewSet(mixins.CreateModelMixin,
+                         mixins.DestroyModelMixin,
+                         mixins.ListModelMixin,
+                         viewsets.GenericViewSet):
     pagination_class = None
+
+
+class TagViewSet(CustomModelViewSet):
     queryset = models.Tag.objects.all()
     serializer_class = serializers.TagSerializer
     permission_classes = (custom_permissions.IsAdminOrReadOnly,)
@@ -25,11 +27,7 @@ class TagViewSet(mixins.CreateModelMixin,
     lookup_field = 'slug'
 
 
-class FollowViewSet(mixins.CreateModelMixin,
-                    mixins.ListModelMixin,
-                    mixins.DestroyModelMixin,
-                    viewsets.GenericViewSet):
-    pagination_class = None
+class FollowViewSet(CustomModelViewSet):
     serializer_class = serializers.FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
     lookup_field = 'author__username'
@@ -38,11 +36,7 @@ class FollowViewSet(mixins.CreateModelMixin,
         return models.Follow.objects.filter(user=self.request.user)
 
 
-class FavoritesViewSet(mixins.CreateModelMixin,
-                       mixins.ListModelMixin,
-                       mixins.DestroyModelMixin,
-                       viewsets.GenericViewSet):
-    pagination_class = None
+class FavoritesViewSet(CustomModelViewSet):
     serializer_class = serializers.FavoritesSerializer
     permission_classes = (permissions.IsAuthenticated,)
     lookup_field = 'recipe__slug'
@@ -51,11 +45,7 @@ class FavoritesViewSet(mixins.CreateModelMixin,
         return models.Favorites.objects.filter(user=self.request.user)
 
 
-class PurchaseViewSet(mixins.CreateModelMixin,
-                      mixins.ListModelMixin,
-                      mixins.DestroyModelMixin,
-                      viewsets.GenericViewSet):
-    pagination_class = None
+class PurchaseViewSet(CustomModelViewSet):
     serializer_class = serializers.PurchaseSerializer
     permission_classes = (permissions.IsAuthenticated,)
     lookup_field = 'recipe__slug'
@@ -65,9 +55,8 @@ class PurchaseViewSet(mixins.CreateModelMixin,
 
     @action(detail=False, methods=('get',))
     def download(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        # if not queryset.exists():
-        #     return HttpResponse(status=404)
+        if not self.get_queryset().exists():
+            return HttpResponse(status=404)
         filename = 'purchases.txt'
         purchases = utils.make_purchases(self.request.user.username)
         response = HttpResponse(purchases,
@@ -99,7 +88,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def purchases(self, request, *args, **kwargs):
         """Return recipes from purchase list."""
-        print(self.get_queryset())
         serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 

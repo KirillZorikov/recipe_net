@@ -1,12 +1,12 @@
-from django.contrib.auth import authenticate
-from rest_framework import serializers
-from django.core.mail import send_mail
 from django.conf import settings
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from rest_framework import serializers
 
-from .models import User
+User = get_user_model()
 
 
 def authenticate_user(password, username=None, email=None):
@@ -35,11 +35,3 @@ def send_instructions(email_to, url):
 
 def check_token(user, token):
     return default_token_generator.check_token(user, token)
-
-
-def get_user_by_uidb64(uidb64):
-    try:
-        pk = str(urlsafe_base64_decode(uidb64), encoding='utf-8')
-        return User.objects.get(pk=pk)
-    except (UnicodeDecodeError, AttributeError, User.DoesNotExist):
-        return

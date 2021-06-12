@@ -1,7 +1,8 @@
-import requests
 from django.conf import settings
-from requests import RequestException
 from rest_framework import serializers
+
+import requests
+from requests import RequestException
 
 
 class RecaptchaValidationMixin:

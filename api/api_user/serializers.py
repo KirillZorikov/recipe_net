@@ -1,9 +1,13 @@
+from django.contrib.auth import get_user_model
+from django.utils.http import urlsafe_base64_decode
 from rest_framework import serializers
-from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken
+
+from api.api_recipe.models import Follow
 
 from .mixins import RecaptchaValidationMixin
-from .models import User
-from api.api_recipe.models import Follow
+
+User = get_user_model()
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -106,6 +110,17 @@ class ResetUserPasswordSerializer(serializers.Serializer):
 class ResetPasswordCompleteSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=150, write_only=True)
     password2 = serializers.CharField(max_length=150, write_only=True)
+    uidb64 = serializers.CharField(write_only=True)
+    token = serializers.CharField(write_only=True)
+
+    def validate_uidb64(self, value):
+        try:
+            pk = str(urlsafe_base64_decode(value), encoding='utf-8')
+            return User.objects.get(pk=pk)
+        except (UnicodeDecodeError, AttributeError, User.DoesNotExist):
+            raise serializers.ValidationError(
+                {'uidb64': 'uidb64 is not correct'}
+            )
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:

@@ -1,7 +1,6 @@
 import pytest
-from django.core.management import call_command
 from django.conf import settings
-
+from django.core.management import call_command
 from pytest_django.fixtures import _django_db_fixture_helper
 
 

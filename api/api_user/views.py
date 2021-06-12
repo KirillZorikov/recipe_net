@@ -1,16 +1,16 @@
-from django.contrib.auth import logout
-from rest_framework import viewsets, status, mixins
+from django.conf import settings
+from django.contrib.auth import logout, get_user_model
+from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from . import serializers
-from .models import User
-from .utils import (authenticate_user,
-                    send_instructions,
-                    generate_uidb64_and_token,
-                    check_token,
-                    get_user_by_uidb64)
+from .utils import (authenticate_user, check_token, generate_uidb64_and_token,
+                    send_instructions)
+
+User = get_user_model()
+RESET_PASS_URL = f'{settings.FRONTEND_URL}/reset_password_complete'
 
 
 class AuthViewSet(viewsets.GenericViewSet):
@@ -59,20 +59,22 @@ class AuthViewSet(viewsets.GenericViewSet):
     def reset_password(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        email = request.data['email']
+        email = serializer.validated_data.get('email').email
         uidb64, token = generate_uidb64_and_token(request.user, email)
-        url = f'{request.build_absolute_uri()}?uidb64={uidb64}&token={token}'
+        url = f'{RESET_PASS_URL}?uidb64={uidb64}&token={token}'
         send_instructions(email, url)
         return Response({'success': 'Instructions sent to email.'},
                         status=status.HTTP_200_OK)
 
     @action(detail=False, methods=('post',), permission_classes=(AllowAny,))
     def reset_password_complete(self, request):
-        serializer = self.get_serializer(request.user, data=request.data)
+        request_data = {key: value for key, value in request.data.items()}
+        request_data.update({'uidb64': self.request.GET.get('uidb64'),
+                             'token': self.request.GET.get('token')})
+        serializer = self.get_serializer(request.user, data=request_data)
         serializer.is_valid(raise_exception=True)
-        uidb64 = self.request.GET.get('uidb64')
-        token =self.request.GET.get('token')
-        user = get_user_by_uidb64(uidb64)
+        user = serializer.validated_data.get('uidb64')
+        token = serializer.validated_data.get('token')
         if not user or not check_token(user, token):
             return Response(status=status.HTTP_404_NOT_FOUND)
         user.set_password(request.data['password'])

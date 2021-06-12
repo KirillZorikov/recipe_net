@@ -1,7 +1,8 @@
+import json
+
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
-import json
 
 from . import models
 
@@ -13,7 +14,7 @@ class TagRelatedField(serializers.RelatedField):
     def to_internal_value(self, data):
         try:
             tag = models.Tag.objects.get(slug=data)
-        except ValueError:
+        except (ValueError, MultipleObjectsReturned, ObjectDoesNotExist):
             raise ValidationError()
         return tag
 
@@ -25,7 +26,7 @@ class AuthorRelatedField(serializers.RelatedField):
     def to_internal_value(self, data):
         try:
             author = models.User.objects.get(username=data)
-        except ValueError:
+        except (ValueError, MultipleObjectsReturned, ObjectDoesNotExist):
             raise ValidationError()
         return author
 
@@ -48,7 +49,7 @@ class IngredientRelatedField(serializers.RelatedField):
                 product=product,
                 quantity=data.get('quantity')
             )
-        except ValueError:
+        except (ValueError, MultipleObjectsReturned):
             raise ValidationError()
         return ingredient
 

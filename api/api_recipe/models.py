@@ -1,7 +1,6 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.db.models import Exists, OuterRef
-
 from pytils.translit import slugify
 
 User = get_user_model()
@@ -56,7 +55,7 @@ class Tag(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
-        super(Tag, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Unit(models.Model):
@@ -64,6 +63,12 @@ class Unit(models.Model):
     title = models.CharField(max_length=50,
                              verbose_name='Title',
                              help_text='Name of the unit')
+
+    class Meta:
+        ordering = ('title',)
+        get_latest_by = 'id'
+        verbose_name = 'Unit'
+        verbose_name_plural = 'Units'
 
     def __str__(self):
         return self.title
@@ -75,8 +80,15 @@ class Product(models.Model):
                              help_text='Product title')
     unit = models.ForeignKey(Unit,
                              on_delete=models.CASCADE,
+                             related_name='product',
                              verbose_name='Unit',
                              help_text='Product unit')
+
+    class Meta:
+        ordering = ('title',)
+        get_latest_by = 'id'
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
 
     def __str__(self):
         return self.title
@@ -86,6 +98,7 @@ class Ingredient(models.Model):
     """recipe ingredient"""
     product = models.ForeignKey(Product,
                                 on_delete=models.CASCADE,
+                                related_name='ingredient',
                                 verbose_name='Product',
                                 help_text='Product: name + unit')
     quantity = models.PositiveSmallIntegerField(db_index=True,
@@ -115,7 +128,7 @@ class Recipe(models.Model):
     image = models.ImageField(upload_to='images/',
                               verbose_name='Image',
                               help_text='Recipe image')
-    description = models.CharField(max_length=5000,
+    description = models.CharField(max_length=50000,
                                    verbose_name='Description',
                                    help_text='Recipe description')
     ingredients = models.ManyToManyField(Ingredient,
@@ -124,6 +137,7 @@ class Recipe(models.Model):
                                          help_text='Recipe ingredients')
     tags = models.ManyToManyField(Tag,
                                   verbose_name='Tag',
+                                  related_name='recipes',
                                   help_text='Recipe tags')
     time = models.PositiveSmallIntegerField(db_index=True,
                                             verbose_name='Time',
@@ -137,7 +151,7 @@ class Recipe(models.Model):
     objects = ModelQuerySet.as_manager()
 
     class Meta:
-        ordering = ('title', 'author')
+        ordering = ('-id',)
         get_latest_by = 'id'
         verbose_name = 'Recipe'
         verbose_name_plural = 'Recipes'
@@ -146,7 +160,7 @@ class Recipe(models.Model):
         return str(self.title)
 
     def save(self, *args, **kwargs):
-        super(Recipe, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         if self.slug:
             return
         self.slug = slugify(f'{self.pk}-{self.title}')

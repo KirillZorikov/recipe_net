@@ -8,9 +8,8 @@ class RecipeFilter(django_filters.FilterSet):
 
     class Meta:
         model = Recipe
-        fields = ('tags', )
+        fields = ('tags',)
 
     def filter_tags(self, queryset, field_name, tags):
         tags = tags.split(',')
-        return queryset.filter(tags__slug__in=tags)
-
+        return queryset.filter(tags__slug__in=tags).distinct()
