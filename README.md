@@ -3,9 +3,9 @@
 Backend for the project recipe_net.
 Vue 3 frontend is here: [front](https://github.com/KirillZorikov/recipe_net_front).
 
-Production version on a running server: http://84.252.132.216:8080.
+Production version on a running server: http://kz-projects.tk/recipe_net
 
-Admin panel: http://84.252.132.216/admin_panel.
+Admin panel: https://kz-api.tk/admin_panel
 
 recipe_net is an online service where users can publish recipes, 
 subscribe to other users, add favorite recipes to the favorites list, 
@@ -22,9 +22,17 @@ There are also tests that cover most of the project endpoints.
 pytest
 ```
 
+# A few steps to fully run and setup the project:
+
 ## Project setup
 ```
 docker-compose build
+```
+
+## Create HTTPS certificates
+```
+chmod +x init-letsencrypt.sh
+sudo ./init-letsencrypt.sh
 ```
 
 ## Project run
