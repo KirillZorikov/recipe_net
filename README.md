@@ -22,6 +22,7 @@ There are also tests that cover most of the project endpoints.
 pytest
 ```
 
+
 # A few steps to fully run and setup the project:
 
 ## Project setup
