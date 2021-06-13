@@ -1,4 +1,4 @@
-# recipe_net 
+# recipe_net
 
 Backend for the project recipe_net.
 Vue 3 frontend is here: [front](https://github.com/KirillZorikov/recipe_net_front).

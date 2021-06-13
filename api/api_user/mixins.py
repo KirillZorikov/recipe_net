@@ -1,8 +1,7 @@
+import requests
+
 from django.conf import settings
 from rest_framework import serializers
-
-import requests
-from requests import RequestException
 
 
 class RecaptchaValidationMixin:
@@ -16,7 +15,7 @@ class RecaptchaValidationMixin:
                 'https://www.google.com/recaptcha/api/siteverify',
                 data=data
             ).json()
-        except RequestException:
+        except requests.RequestException:
             raise serializers.ValidationError(
                 {'recaptcha': 'Recaptcha is not available now. Try again.'}
             )

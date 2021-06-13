@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth import logout, get_user_model
+from django.contrib.auth import get_user_model, logout
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated

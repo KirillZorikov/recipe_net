@@ -10,7 +10,7 @@ class ModelQuerySet(models.QuerySet):
     def annotate_additional_fields(self, user):
         return self.annotate(
             in_favorites=Exists(
-                Favorites.objects.filter(
+                Favorite.objects.filter(
                     user=user.id,
                     recipe_id=OuterRef('id')
                 ).only('id')
@@ -80,7 +80,7 @@ class Product(models.Model):
                              help_text='Product title')
     unit = models.ForeignKey(Unit,
                              on_delete=models.CASCADE,
-                             related_name='product',
+                             related_name='products',
                              verbose_name='Unit',
                              help_text='Product unit')
 
@@ -98,7 +98,7 @@ class Ingredient(models.Model):
     """recipe ingredient"""
     product = models.ForeignKey(Product,
                                 on_delete=models.CASCADE,
-                                related_name='ingredient',
+                                related_name='ingredients',
                                 verbose_name='Product',
                                 help_text='Product: name + unit')
     quantity = models.PositiveSmallIntegerField(db_index=True,
@@ -167,7 +167,7 @@ class Recipe(models.Model):
         self.save()
 
 
-class Favorites(models.Model):
+class Favorite(models.Model):
     """user's favorites list"""
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
@@ -183,7 +183,7 @@ class Favorites(models.Model):
     class Meta:
         ordering = ('user',)
         get_latest_by = 'id'
-        verbose_name = 'Favorites'
+        verbose_name = 'Favorite'
         verbose_name_plural = 'Favorites'
         constraints = [
             models.UniqueConstraint(

@@ -36,13 +36,13 @@ class FollowViewSet(CustomModelViewSet):
         return models.Follow.objects.filter(user=self.request.user)
 
 
-class FavoritesViewSet(CustomModelViewSet):
-    serializer_class = serializers.FavoritesSerializer
+class FavoriteViewSet(CustomModelViewSet):
+    serializer_class = serializers.FavoriteSerializer
     permission_classes = (permissions.IsAuthenticated,)
     lookup_field = 'recipe__slug'
 
     def get_queryset(self):
-        return models.Favorites.objects.filter(user=self.request.user)
+        return models.Favorite.objects.filter(user=self.request.user)
 
 
 class PurchaseViewSet(CustomModelViewSet):

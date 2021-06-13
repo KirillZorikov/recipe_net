@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import (Favorites, Follow, Ingredient, Product, Purchase, Recipe,
+from .models import (Favorite, Follow, Ingredient, Product, Purchase, Recipe,
                      Tag, Unit)
 
-for model in [Unit, Product, Favorites, Follow, Purchase]:
+for model in [Unit, Product, Favorite, Follow, Purchase]:
     admin.site.register(model)
 
 

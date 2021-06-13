@@ -1,6 +1,6 @@
 import json
 
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -14,7 +14,7 @@ class TagRelatedField(serializers.RelatedField):
     def to_internal_value(self, data):
         try:
             tag = models.Tag.objects.get(slug=data)
-        except (ValueError, MultipleObjectsReturned, ObjectDoesNotExist):
+        except (ValueError, MultipleObjectsReturned, models.Tag.DoesNotExist):
             raise ValidationError()
         return tag
 
@@ -26,7 +26,7 @@ class AuthorRelatedField(serializers.RelatedField):
     def to_internal_value(self, data):
         try:
             author = models.User.objects.get(username=data)
-        except (ValueError, MultipleObjectsReturned, ObjectDoesNotExist):
+        except (ValueError, MultipleObjectsReturned, models.User.DoesNotExist):
             raise ValidationError()
         return author
 
@@ -114,7 +114,7 @@ class FollowSerializer(serializers.ModelSerializer):
         model = models.Follow
 
 
-class FavoritesSerializer(serializers.ModelSerializer):
+class FavoriteSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         slug_field='username',
         queryset=models.User.objects.all(),
@@ -126,16 +126,14 @@ class FavoritesSerializer(serializers.ModelSerializer):
     )
 
     def validate(self, data):
-        """django doesn't do this check itself for favorite and crashes if
-        not done, but the follow works well. miracle."""
-        if models.Favorites.objects.filter(user=data['user'],
+        if models.Favorite.objects.filter(user=data['user'],
                                            recipe_id=data['recipe']).exists():
-            raise serializers.ValidationError('Duplicate favorites.')
+            raise serializers.ValidationError('Duplicate favorite.')
         return data
 
     class Meta:
         fields = ('user', 'recipe')
-        model = models.Favorites
+        model = models.Favorite
 
 
 class PurchaseSerializer(serializers.ModelSerializer):

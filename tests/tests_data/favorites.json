@@ -1,6 +1,6 @@
 [
 {
-  "model": "api_recipe.favorites",
+  "model": "api_recipe.favorite",
   "pk": 1,
   "fields": {
     "user": 1,

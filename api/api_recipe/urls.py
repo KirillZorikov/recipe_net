@@ -6,7 +6,7 @@ from . import views
 router = DefaultRouter(trailing_slash=False)
 router.register(
     'favorites',
-    views.FavoritesViewSet,
+    views.FavoriteViewSet,
     basename='favorites',
 )
 router.register(

@@ -31,7 +31,7 @@ class TestFavorites:
         response_data = response.json()
         assert response.status_code == 400
         assert (response_data.get('non_field_errors') ==
-                ['Duplicate favorites.'])
+                ['Duplicate favorite.'])
 
     @pytest.mark.django_db(transaction=True)
     def test_04_add_to_favorites_non_exist(self, user_client, db_user):

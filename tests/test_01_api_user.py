@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+
 import pytest
 
 from django.conf import settings
