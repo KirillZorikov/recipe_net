@@ -116,13 +116,8 @@ AUTHENTICATION_BACKENDS = [
 
 GOOGLE_RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTHCA_KEY')
 
-CORS_ALLOW_HEADERS = default_headers + (
-    'Access-Control-Allow-Headers',
-    'Access-Control-Allow-Credentials',
-    'Access-Control-Allow-Origin',
-)
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/(api|media)/.*$'
+CORS_URLS_REGEX = r'^/api/.*$'
 
 PAGE_SIZE = 6
 REST_FRAMEWORK = {
