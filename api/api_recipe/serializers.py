@@ -1,6 +1,7 @@
 import json
 
 from django.core.exceptions import MultipleObjectsReturned
+from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -49,7 +50,7 @@ class IngredientRelatedField(serializers.RelatedField):
                 product=product,
                 quantity=data.get('quantity')
             )
-        except (ValueError, MultipleObjectsReturned):
+        except (ValueError, MultipleObjectsReturned, IntegrityError):
             raise ValidationError()
         return ingredient
 
@@ -127,7 +128,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if models.Favorite.objects.filter(user=data['user'],
-                                           recipe_id=data['recipe']).exists():
+                                          recipe_id=data['recipe']).exists():
             raise serializers.ValidationError('Duplicate favorite.')
         return data
 
