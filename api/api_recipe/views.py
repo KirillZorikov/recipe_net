@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import mixins, permissions, viewsets
+from rest_framework import mixins, permissions, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -64,6 +64,11 @@ class PurchaseViewSet(CustomModelViewSet):
         response['Content-Disposition'] = f'attachment; filename={filename}'
         return response
 
+    @action(detail=False, methods=('get',))
+    def count(self, request, *args, **kwargs):
+        count = self.get_queryset().count()
+        return Response({'purchases_count': count}, status=status.HTTP_200_OK)
+
 
 class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
@@ -103,6 +108,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return self.list(self, request, *args, **kwargs)
 
     def get_queryset(self):
+        # raise Exception(self.request.META)
         queryset = models.Recipe.objects.annotate_additional_fields(
             self.request.user
         )
