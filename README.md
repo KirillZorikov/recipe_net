@@ -3,7 +3,7 @@
 Backend for the project recipe_net.
 Vue 3 frontend is here: [front](https://github.com/KirillZorikov/recipe_net_front).
 
-Production version on a running server: http://kz-projects.tk/recipe_net
+Production version on a running server: https://kz-projects.tk/recipe_net
 
 Admin panel: https://kz-api.tk/admin_panel
 
