@@ -5,9 +5,9 @@ Vue 3 frontend is here: [front](https://github.com/KirillZorikov/recipe_net_fron
 
 Production version on a running server: https://kz-projects.tk/recipe_net
 
-Admin panel: https://kz-api.tk/recipe_net/admin_panel
-
 Api: https://kz-api.tk/recipe_net/api/v1
+
+Admin panel: https://kz-api.tk/recipe_net/admin_panel
 
 recipe_net is an online service where users can publish recipes, 
 subscribe to other users, add favorite recipes to the favorites list, 

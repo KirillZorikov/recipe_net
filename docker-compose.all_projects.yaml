@@ -1,0 +1,100 @@
+version: '3.7'
+
+services:
+  recipe_net_prod:
+    image: kzorikov/recipe_net_back:v1
+    command: gunicorn recipe_net.wsgi:application --bind 0.0.0.0:8000
+    restart: always
+    depends_on:
+      - db_recipe_net
+    volumes:
+      - static_recipe_net:/home/recipe/recipe_net/static/
+      - media_recipe_net:/home/recipe/recipe_net/media/
+    env_file:
+      - ./env_recipe_net/.env.prod
+  blog_prod:
+    image: kzorikov/blog_back:v1
+    command: gunicorn _project_settings_.wsgi:application --bind 0.0.0.0:8001
+    restart: always
+    depends_on:
+      - db_blog
+    volumes:
+      - static_blog:/home/blog/blog_django/static/
+      - media_blog:/home/blog/blog_django/media/
+    env_file:
+      - ./env_blog/.env.prod
+  yamdb_prod:
+    image: kzorikov/yamdb_final:v1
+    command: gunicorn api_yamdb.wsgi:application --bind 0.0.0.0:8002
+    restart: always
+    depends_on:
+      - db_yamdb
+    volumes:
+      - static_yamdb:/home/yamdb/api_yamdb/static/
+    env_file:
+      - ./env_yamdb/.env.prod
+  recipe_net_front:
+    image: kzorikov/recipe_net_front:v1
+    restart: always
+    ports:
+      - 8008:8008
+  blog_front:
+    image: kzorikov/blog_front:v1
+    restart: always
+    ports:
+      - 8009:8009
+  db_recipe_net:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_recipe_net:/var/lib/postgresql/data/
+    env_file:
+      - ./env_recipe_net/.env.db
+  db_blog:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_blog:/var/lib/postgresql/data/
+    env_file:
+      - ./env_blog/.env.db
+  db_yamdb:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_yamdb:/var/lib/postgresql/data/
+    env_file:
+      - ./env_yamdb/.env.db
+  nginx:
+    image: nginx:1.19.0-alpine
+    restart: unless-stopped
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    volumes:
+      - ./nginx/all_projects.conf:/etc/nginx/conf.d
+      - ./nginx/html:/etc/nginx/html
+      - static_recipe_net:/home/recipe/recipe_net/static/
+      - media_recipe_net:/home/recipe/recipe_net/media/
+      - static_blog:/home/blog/blog_django/static/
+      - media_blog:/home/blog/blog_django/media/
+      - static_yamdb:/home/yamdb/api_yamdb/static/
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - recipe_net_prod
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    depends_on:
+      - nginx
+
+volumes:
+  postgres_yamdb:
+  static_yamdb:
+  postgres_blog:
+  static_blog:
+  media_blog:
+  postgres_recipe_net:
+  static_recipe_net:
+  media_recipe_net:

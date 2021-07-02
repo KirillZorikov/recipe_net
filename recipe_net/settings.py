@@ -99,10 +99,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
+PROJECT_NAME = 'recipe_net'
+
+STATIC_URL = f'/{PROJECT_NAME}/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = f'/{PROJECT_NAME}/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -117,7 +119,7 @@ AUTHENTICATION_BACKENDS = [
 GOOGLE_RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTHCA_KEY')
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r'^/recipe_net/api/.*$'
 
 PAGE_SIZE = 6
 REST_FRAMEWORK = {

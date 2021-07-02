@@ -7,9 +7,9 @@ from api.api_recipe import urls as recipe_urls
 from api.api_user import urls as user_urls
 
 urlpatterns = [
-    re_path('admin_panel/', admin.site.urls),
-    re_path('api/', include(user_urls)),
-    re_path('api/', include(recipe_urls)),
+    re_path(settings.PROJECT_NAME + '/admin_panel/', admin.site.urls),
+    re_path(settings.PROJECT_NAME + '/api/', include(user_urls)),
+    re_path(settings.PROJECT_NAME + '/api/', include(recipe_urls)),
 ]
 
 if settings.DEBUG:

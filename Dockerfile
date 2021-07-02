@@ -28,7 +28,7 @@ RUN mkdir ${PROJECTPATH}
 WORKDIR ${PROJECTPATH}
 
 RUN apt-get -yqq update && apt-get install -yqq --no-install-recommends \
-    libpq-dev \
+    libpq-dev nano \
     && apt-get purge -yqq --auto-remove \
     && rm -rf /var/lib/apt/lists/*
 

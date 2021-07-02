@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/app.conf:/etc/nginx/conf.d
       - static_value:/home/recipe/recipe_net/static/
       - media_value:/home/recipe/recipe_net/media/
       - ./data/certbot/conf:/etc/letsencrypt
