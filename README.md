@@ -46,6 +46,8 @@ Frontend side:
 
 *See the full list of frontend dependencies here: [package.json](https://github.com/KirillZorikov/recipe_net_front/blob/master/package.json)*
 
+<hr/>
+
 There is also a [docker-compose.all_projects.yaml](https://github.com/KirillZorikov/recipe_net/blob/master/docker-compose.all_projects.yaml) file that will allow you to run several projects on the same server:
 recipe_net, 
 [blog](https://github.com/KirillZorikov/blog_back),
