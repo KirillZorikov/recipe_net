@@ -50,9 +50,9 @@ Frontend side:
 
 *See the full list of frontend dependencies here: [package.json](https://github.com/KirillZorikov/recipe_net_front/blob/master/package.json)*
 
-<hr/>
+## Project deployment
 
-There is also a [docker-compose.all_projects.yaml](https://github.com/KirillZorikov/recipe_net/blob/master/docker-compose.all_projects.yaml) file that will allow you to run several projects on the same server:
+There is a [docker-compose.all_projects.yaml](https://github.com/KirillZorikov/recipe_net/blob/master/docker-compose.all_projects.yaml) file that will allow you to run several projects on the same server:
 recipe_net, 
 [blog](https://github.com/KirillZorikov/blog_back),
 [yamdb](https://github.com/KirillZorikov/yamdb_final)
@@ -66,28 +66,28 @@ with
 docker-compose -f docker-compose.all_projects.yaml
 ```
 
-## Create HTTPS certificates
+### Create HTTPS certificates
 ```
 chmod +x init-letsencrypt.sh
 sudo ./init-letsencrypt.sh
 ```
 
-## Project run
+### Project run
 ```
 docker-compose up
 ```
 
-## Apply migrations
+### Apply migrations
 ```
 docker-compose exec recipe_net_prod python manage.py migrate
 ```
 
-## Create superuser
+### Create superuser
 ```
 docker-compose exec recipe_net_prod python manage.py createsuperuser
 ```
 
-## Fill the database with dummy data
+### Fill the database with dummy data
 ```
 docker-compose exec recipe_net_prod python manage.py loaddata dummy_data/db.json
 ```
