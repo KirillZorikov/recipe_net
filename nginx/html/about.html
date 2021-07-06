@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -8,107 +8,238 @@
     <title>About </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  </head>
-  <body>
+    <style>
+        .tag {
+            border-radius: 24px;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 10px;
+            cursor: pointer;
+        }
 
-    <div class="bg-light">
-      <div class="container py-5">
-      <div class="row h-100 align-items-center py-5">
-        <div class="col-lg-6">
-        <h1 class="display-4">Hi, I'm Kirill</h1>
-        <p class="lead text-muted mb-0">I have yet to start my path as a python backend developer. </p>
-        <p class="lead text-muted mb-0">There are many cool things waiting for me to study!</p>
-        <p class="lead text-muted">A bright future or an eternal nothing? <u>Let's see!</u></p>
+        .tag-purple {
+            background: rgba(135, 117, 210, 0.1);
+            color: blueviolet;
+        }
+
+        .tag-green {
+            background: rgba(73, 182, 78, 0.1);
+            color: #67b168;
+        }
+
+        .tag-red {
+            background: rgba(234, 146, 99, 0.12);
+            color: #e35f5f;
+        }
+
+        .tag-blue {
+            background: rgba(68, 157, 219, 0.12);
+            color: blue;
+        }
+
+        .tag-maroon {
+            background: rgba(236, 155, 59, 0.12);
+            color: #b34d4d;
+        }
+
+        .tag-yellow {
+            background: rgba(213, 203, 110, 0.12);
+            color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-light">
+    <div class="container py-5">
+        <div class="row h-100 align-items-center py-5">
+            <div class="col-lg-6">
+                <h1 class="display-4">Hi, I'm Kirill</h1>
+                <p class="lead text-muted mb-0">I have yet to start my path as a python backend developer. </p>
+                <p class="lead text-muted mb-0">There are many cool things waiting for me to study!</p>
+                <p class="lead text-muted">A bright future or an eternal nothing? <u>Let's see!</u></p>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block"></div>
         </div>
-        <div class="col-lg-6 d-none d-lg-block"></div>
-      </div>
-      </div>
     </div>
+</div>
 
-    <div class="bg-white">
-      <div class="container">
-      <div class="row d-flex justify-content-center mb-4">
-        <h2 class="display-4">Projects:</h2>
-      </div>
+<div class="bg-white">
+    <div class="container">
+        <div class="row d-flex justify-content-center mb-4">
+            <h2 class="display-4">Projects:</h2>
+        </div>
 
-      <div class="row align-items-center mb-4">
-        <div class="col-lg-7"><i class="fa fa-cutlery fa-2x mb-3 text-primary"></i>
-        <h2 class="font-weight-light">Recipe_net: Django + Vue 3</h2>
-        <p class="font-italic text-muted mb-1">
-          <a href="http://kz-projects.tk/recipe_net/" target="_blank">
-            kz-projects.tk/recipe_net
-          </a>
-        </p>
-        <p class="font-italic text-muted mb-4">Recipe_net is an online service where users can publish recipes, subscribe to other users, add favorite recipes to the favorites list, and download a summary list of products needed to prepare one or more selected dishes before going to the store.</p>
-        <a href="http://kz-projects.tk/recipe_net/"  target="_blank" class="btn btn-outline-primary px-5 rounded-pill shadow-sm border hover-blue mb-3" style="min-width: 170px;">
-          <i class="fa fa-globe" aria-hidden="true"></i> site
-        </a>
-        <a href="https://github.com/KirillZorikov/recipe_net"  target="_blank" class="btn btn-light px-5 rounded-pill shadow-sm border ml-3 mb-3" style="min-width: 170px;">
-          <i class="fa fa-github" aria-hidden="true"></i> github
-        </a>
-        </div>
-        <div class="col-lg-5">
-        <img class="rounded float-right mb-5 w-100" src="https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bWVhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80">
-        </div>
-      </div>
-      <hr class="mb-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-lg-7"><i class="fa fa-cutlery fa-2x mb-3 text-primary"></i>
+                <h2 class="font-weight-light">Recipe_net</h2>
 
-      <div class="row align-items-center mb-5">
-        <div class="col-lg-5"><img src="https://cdn.pixabay.com/photo/2019/02/11/20/34/note-3990712_960_720.jpg" alt="" class="img-fluid mb-4 mb-lg-0 rounded"></div>
-        <div class="col-lg-7 pl-4"><i class="fa fa-pencil-square-o fa-2x mb-3 text-primary"></i>
-        <h2 class="font-weight-light">Blog: Django + Vue 3</h2>
-        <p class="font-italic text-muted mb-1">
-          <a href="http://kz-projects.tk/blog/" target="_blank">
-            kz-projects.tk/blog
-          </a>
-        </p>
-        <p class="font-italic text-muted mb-0">My first django project. Mistakes were made.</p>
-        <p class="font-italic text-muted mb-4">Authors can publish posts. Users can rate and comment them, as well as subscribe to their favorite authors.</p>
-        <a href="http://kz-projects.tk/blog/"  target="_blank" class="btn btn-outline-primary px-5 rounded-pill shadow-sm border hover-blue" style="min-width: 170px;">
-          <i class="fa fa-globe" aria-hidden="true"></i> site
-        </a>
-        <a href="https://github.com/KirillZorikov/blog_back"  target="_blank" class="btn btn-light px-5 rounded-pill shadow-sm border ml-3" style="min-width: 170px;">
-          <i class="fa fa-github" aria-hidden="true"></i> github
-        </a>
-        </div>
-      </div>
-      <hr class="mb-5 ">
+                <div class="mb-3 mt-3">
+                    <a href="https://www.djangoproject.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-red">
+                        Django 3.2
+                    </a>
+                    <a href="https://v3.vuejs.org/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-green">
+                        Vue.js 3
+                    </a>
+                    <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-purple">
+                        Bootstrap.js 5
+                    </a>
+                    <a href="https://www.docker.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-blue">
+                        Docker
+                    </a>
+                    <a href="https://www.django-rest-framework.org/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-maroon">
+                        DRF
+                    </a>
+                    <a href="https://www.nginx.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-yellow">
+                        Nginx
+                    </a>
+                </div>
 
-      <div class="row align-items-center mb-5">
-        <div class="col-lg-7"><i class="fa fa-database fa-2x mb-3 text-primary"></i>
-        <h2 class="font-weight-light">Yamdb: Django(api only)</h2>
-        <p class="font-italic text-muted mb-1">
-          Documentation:
-          <a href="https://kz-api.tk/yamdb/redoc" target="_blank">
-            kz-api.tk/yamdb/redoc
-          </a>
-        </p>
-        <p class="font-italic text-muted mb-4">The YaMDb project collects user reviews of the titles. Titles can be of various categories. For example: "Books", "Movies", "Music".</p>
-        <a href="https://kz-api.tk/yamdb/api/v1"  target="_blank" class="btn btn-outline-primary px-5 rounded-pill shadow-sm border hover-blue mb-3" style="min-width: 170px;">
-          <i class="fa fa-globe" aria-hidden="true"></i> api
-        </a>
-        <a href="https://github.com/KirillZorikov/yamdb_final"  target="_blank" class="btn btn-light px-5 rounded-pill shadow-sm border ml-3 mb-3" style="min-width: 170px;">
-          <i class="fa fa-github" aria-hidden="true"></i> github
-        </a>
+                <p class="font-italic text-muted mb-1">
+                    <a href="http://kz-projects.tk/recipe_net/" target="_blank">
+                        kz-projects.tk/recipe_net
+                    </a>
+                </p>
+                <p class="font-italic text-muted mb-4">Recipe_net is an online service where users can publish recipes,
+                    subscribe to other users, add favorite recipes to the favorites list, and download a summary list of
+                    products needed to prepare one or more selected dishes before going to the store.</p>
+                <a href="http://kz-projects.tk/recipe_net/" target="_blank"
+                   class="btn btn-outline-primary px-5 rounded-pill shadow-sm border hover-blue mr-3 mb-3"
+                   style="min-width: 170px;">
+                    <i class="fa fa-globe" aria-hidden="true"></i> site
+                </a>
+                <a href="https://github.com/KirillZorikov/recipe_net" target="_blank"
+                   class="btn btn-light px-5 rounded-pill shadow-sm border mb-3" style="min-width: 170px;">
+                    <i class="fa fa-github" aria-hidden="true"></i> github
+                </a>
+            </div>
+            <div class="col-lg-5">
+                <img class="rounded float-right mb-5 w-100"
+                     src="https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bWVhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80">
+            </div>
         </div>
-        <div class="col-lg-5">
-        <img class="rounded float-right mb-5 w-100" src="https://www.fuzzylogx.com.au/wp-content/uploads/2018/10/stockvault-big-data-analytics196879.jpg">
+        <hr class="mb-5">
+
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-5"><img src="https://cdn.pixabay.com/photo/2019/02/11/20/34/note-3990712_960_720.jpg"
+                                       alt="" class="img-fluid mb-4 mb-lg-0 rounded"></div>
+            <div class="col-lg-7 pl-4"><i class="fa fa-pencil-square-o fa-2x mb-3 text-primary"></i>
+                <h2 class="font-weight-light">Blog</h2>
+
+                <div class="mb-3 mt-3">
+                    <a href="https://www.djangoproject.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-red">
+                        Django 2.2.6
+                    </a>
+                    <a href="https://v3.vuejs.org/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-green">
+                        Vue.js 3
+                    </a>
+                    <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-purple">
+                        Bootstrap.js 4
+                    </a>
+                    <a href="https://www.docker.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-blue">
+                        Docker
+                    </a>
+                    <a href="https://www.django-rest-framework.org/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-maroon">
+                        DRF
+                    </a>
+                    <a href="https://www.nginx.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-yellow">
+                        Nginx
+                    </a>
+                </div>
+
+                <p class="font-italic text-muted mb-1">
+                    <a href="http://kz-projects.tk/blog/" target="_blank">
+                        kz-projects.tk/blog
+                    </a>
+                </p>
+                <p class="font-italic text-muted mb-0">My first django project. Mistakes were made.</p>
+                <p class="font-italic text-muted mb-4">Authors can publish posts. Users can rate and comment them, as
+                    well as subscribe to their favorite authors.</p>
+                <a href="http://kz-projects.tk/blog/" target="_blank"
+                   class="btn btn-outline-primary px-5 rounded-pill shadow-sm border hover-blue mb-3 mr-3"
+                   style="min-width: 170px;">
+                    <i class="fa fa-globe" aria-hidden="true"></i> site
+                </a>
+                <a href="https://github.com/KirillZorikov/blog_back" target="_blank"
+                   class="btn btn-light px-5 rounded-pill shadow-sm border mb-3" style="min-width: 170px;">
+                    <i class="fa fa-github" aria-hidden="true"></i> github
+                </a>
+            </div>
         </div>
-      </div>
-      </div>
+        <hr class="mb-5 ">
+
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-7"><i class="fa fa-database fa-2x mb-3 text-primary"></i>
+                <h2 class="font-weight-light">Yamdb(api only)</h2>
+
+                <div class="mb-3 mt-3">
+                    <a href="https://www.djangoproject.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-red">
+                        Django 3
+                    </a>
+                    <a href="https://www.docker.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-blue">
+                        Docker
+                    </a>
+                    <a href="https://www.django-rest-framework.org/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-maroon">
+                        DRF
+                    </a>
+                    <a href="https://www.nginx.com/" target="_blank"
+                       class="d-inline-block mb-2 p-3 pt-1 pb-1 mr-2 text-decoration-none tag tag-yellow">
+                        Nginx
+                    </a>
+                </div>
+
+                <p class="font-italic text-muted mb-1">
+                    Documentation:
+                    <a href="https://kz-api.tk/yamdb/redoc" target="_blank">
+                        kz-api.tk/yamdb/redoc
+                    </a>
+                </p>
+                <p class="font-italic text-muted mb-4">The YaMDb project collects user reviews of the titles. Titles can
+                    be of various categories. For example: "Books", "Movies", "Music".</p>
+                <a href="https://kz-api.tk/yamdb/api/v1" target="_blank"
+                   class="btn btn-outline-primary px-5 rounded-pill shadow-sm border hover-blue mb-3 mr-3"
+                   style="min-width: 170px;">
+                    <i class="fa fa-globe" aria-hidden="true"></i> api
+                </a>
+                <a href="https://github.com/KirillZorikov/yamdb_final" target="_blank"
+                   class="btn btn-light px-5 rounded-pill shadow-sm border mb-3" style="min-width: 170px;">
+                    <i class="fa fa-github" aria-hidden="true"></i> github
+                </a>
+            </div>
+            <div class="col-lg-5">
+                <img class="rounded float-right mb-5 w-100"
+                     src="https://www.fuzzylogx.com.au/wp-content/uploads/2018/10/stockvault-big-data-analytics196879.jpg">
+            </div>
+        </div>
     </div>
+</div>
 
-    <footer class="bg-dark pb-3">
-      <div class="container text-center h-100">
-      <p class="font-italic pt-3 h3">
-        <a href="https://github.com/KirillZorikov" class="text-light" target="_blank">
-          <i class="fa fa-github" aria-hidden="true"></i>
-        </a>
-      </p>
-      </div>
-    </footer>
+<footer class="bg-dark pb-3 mt-5">
+    <div class="container text-center h-100">
+        <p class="font-italic pt-3 h3">
+            <a href="https://github.com/KirillZorikov" class="text-light" target="_blank">
+                <i class="fa fa-github" aria-hidden="true"></i>
+            </a>
+        </p>
+    </div>
+</footer>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-  </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
