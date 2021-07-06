@@ -8,6 +8,10 @@ and download a summary list of products needed to prepare one or more selected d
 
 With this project, I learned about the features of Django 3.2 and consolidated my knowledge in DRF.
 
+Also, I learned about:
+* [Certbot](https://certbot.eff.org/)
+* [Let's Encrypt](https://letsencrypt.org/)
+
 ### Project links:
 
 * Project site: https://kz-projects.tk/recipe_net
