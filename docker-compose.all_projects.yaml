@@ -66,7 +66,7 @@ services:
     restart: unless-stopped
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     volumes:
-      - ./nginx/all_projects.conf:/etc/nginx/conf.d
+      - ./nginx/all_projects.conf:/etc/nginx/conf.d/all_projects.conf
       - ./nginx/html:/etc/nginx/html
       - static_recipe_net:/home/recipe/recipe_net/static/
       - media_recipe_net:/home/recipe/recipe_net/media/
