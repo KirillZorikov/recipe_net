@@ -33,16 +33,6 @@ services:
       - static_yamdb:/home/yamdb/api_yamdb/static/
     env_file:
       - ./env_yamdb/.env.prod
-  recipe_net_front:
-    image: kzorikov/recipe_net_front:v1
-    restart: always
-    ports:
-      - 8008:8008
-  blog_front:
-    image: kzorikov/blog_front:v1
-    restart: always
-    ports:
-      - 8009:8009
   db_recipe_net:
     image: postgres:12.0-alpine
     volumes:
@@ -66,8 +56,10 @@ services:
     restart: unless-stopped
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     volumes:
-      - ./nginx/all_projects.conf:/etc/nginx/conf.d/all_projects.conf
+      - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
       - ./nginx/html:/etc/nginx/html
+      - ./dist-recipe_net:/etc/nginx/html/dist-recipe_net
+      - ./dist-blog:/etc/nginx/html/dist-blog
       - static_recipe_net:/home/recipe/recipe_net/static/
       - media_recipe_net:/home/recipe/recipe_net/media/
       - static_blog:/home/blog/blog_django/static/
