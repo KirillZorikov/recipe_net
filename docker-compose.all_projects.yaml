@@ -3,7 +3,7 @@ version: '3.7'
 services:
   recipe_net_prod:
     image: kzorikov/recipe_net_back:v1
-    command: gunicorn recipe_net.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn _recipe_net_settings_.wsgi:application --bind 0.0.0.0:8000
     restart: always
     depends_on:
       - db_recipe_net
@@ -33,6 +33,36 @@ services:
       - static_yamdb:/home/yamdb/api_yamdb/static/
     env_file:
       - ./env_yamdb/.env.prod
+  celery_recipe_net:
+    build: ./
+    image: kzorikov/recipe_net_back:v1
+    command: celery -A _recipe_net_settings_ worker -l INFO
+    restart: always
+    depends_on:
+      - redis_recipe_net
+    env_file:
+      - ./env_recipe_net/.env.prod
+  celery_beat_recipe_net:
+    build: ./
+    image: kzorikov/recipe_net_back:v1
+    command: celery -A _recipe_net_settings_ beat -l INFO
+    restart: always
+    depends_on:
+      - redis_recipe_net
+    env_file:
+      - ./env_recipe_net/.env.prod
+  flower_recipe_net:
+    build: ./
+    image: kzorikov/recipe_net_back:v1
+    command: celery -A _recipe_net_settings_ flower --port=5566 --url-prefix=recipe_net/flower --basic_auth=${FLOWER_USER}:${FLOWER_PASSWORD}
+    restart: always
+    depends_on:
+      - celery_recipe_net
+    env_file:
+      - ./env_recipe_net/.env.prod
+  redis_recipe_net:
+    image: redis:latest
+    restart: always
   db_recipe_net:
     image: postgres:12.0-alpine
     volumes:

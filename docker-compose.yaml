@@ -12,7 +12,7 @@ services:
       - static_value:/home/recipe/recipe_net/static/
       - media_value:/home/recipe/recipe_net/media/
     env_file:
-      - ./env/.env.prod
+      - ./env_recipe_net/.env.prod
   celery_recipe_net:
     build: ./
     image: kzorikov/recipe_net_back:v1
@@ -21,7 +21,7 @@ services:
     depends_on:
       - redis_recipe_net
     env_file:
-      - ./env/.env.prod
+      - ./env_recipe_net/.env.prod
   celery_beat_recipe_net:
     build: ./
     image: kzorikov/recipe_net_back:v1
@@ -30,7 +30,7 @@ services:
     depends_on:
       - redis_recipe_net
     env_file:
-      - ./env/.env.prod
+      - ./env_recipe_net/.env.prod
   flower_recipe_net:
     build: ./
     image: kzorikov/recipe_net_back:v1
@@ -39,15 +39,13 @@ services:
     depends_on:
       - celery_recipe_net
     env_file:
-      - ./env/.env.prod
-    ports:
-      - 5566:5566
+      - ./env_recipe_net/.env.prod
   db:
     image: postgres:12.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./env/.env.db
+      - ./env_recipe_net/.env.db
   nginx:
     image: nginx:1.19.0-alpine
     restart: always
