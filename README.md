@@ -21,11 +21,11 @@ For celery, the project has two tasks:
 
 ### Project links:
 
-* Project site: https://kz-projects.tk/recipe_net
-* Vue 3 frontend: https://github.com/KirillZorikov/recipe_net_front
-* Api: https://kz-api.tk/recipe_net/api/v1
-* Admin panel: https://kz-api.tk/recipe_net/admin_panel
-* Flower: https://kz-api.tk/recipe_net/flower
+* Project site: https://kz-projects.tk/recipe_net/
+* Vue 3 frontend: https://github.com/KirillZorikov/recipe_net_front/
+* Api: https://kz-api.tk/recipe_net/api/v1/
+* Admin panel: https://kz-api.tk/recipe_net/admin_panel/
+* Flower: https://kz-api.tk/recipe_net/flower/
 * Docker images: [backend](https://hub.docker.com/repository/docker/kzorikov/recipe_net_back)
 
 There are also the [tests](https://github.com/KirillZorikov/recipe_net/tree/master/tests) that cover most of the project endpoints.
