@@ -27,4 +27,8 @@ wcwidth==0.2.5
 pytils==0.3
 gunicorn==20.1.0
 psycopg2-binary==2.8.6
-flake8
+celery==5.1.2
+flake8==3.9.2
+django-redis==5.0.0
+flower==1.0.0
+django-celery-beat==2.2.1

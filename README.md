@@ -11,6 +11,13 @@ With this project, I learned about the features of Django 3.2 and consolidated m
 Also, I learned about:
 * [Certbot](https://certbot.eff.org/)
 * [Let's Encrypt](https://letsencrypt.org/)
+* [Celery](https://docs.celeryproject.org/en/stable/index.html)
+* [Flower](https://flower.readthedocs.io/en/latest/)
+* [Redis](https://redis.io/)
+
+For celery, the project has two tasks:
+* Sending emails for password recovery,
+* Informing administrators about new users. Every day at midnight
 
 ### Project links:
 
@@ -18,6 +25,7 @@ Also, I learned about:
 * Vue 3 frontend: https://github.com/KirillZorikov/recipe_net_front
 * Api: https://kz-api.tk/recipe_net/api/v1
 * Admin panel: https://kz-api.tk/recipe_net/admin_panel
+* Flower: https://kz-projects.tk/recipe_net/flower
 * Docker images: [backend](https://hub.docker.com/repository/docker/kzorikov/recipe_net_back), [frontend](https://hub.docker.com/repository/docker/kzorikov/recipe_net_front)
 
 There are also the [tests](https://github.com/KirillZorikov/recipe_net/tree/master/tests) that cover most of the project endpoints.

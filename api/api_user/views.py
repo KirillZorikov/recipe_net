@@ -6,8 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from . import serializers
-from .utils import (authenticate_user, check_token, generate_uidb64_and_token,
-                    send_instructions)
+from . import utils
+from . import tasks
 
 User = get_user_model()
 RESET_PASS_URL = f'{settings.FRONTEND_URL}/reset_password_complete'
@@ -28,7 +28,7 @@ class AuthViewSet(viewsets.GenericViewSet):
     def login(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = authenticate_user(**serializer.validated_data)
+        user = utils.authenticate_user(**serializer.validated_data)
         data = serializers.AuthUserSerializer(user).data
         return Response(data=data, status=status.HTTP_200_OK)
 
@@ -60,9 +60,9 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data.get('email').email
-        uidb64, token = generate_uidb64_and_token(request.user, email)
+        uidb64, token = utils.generate_uidb64_and_token(request.user, email)
         url = f'{RESET_PASS_URL}?uidb64={uidb64}&token={token}'
-        send_instructions(email, url)
+        tasks.send_instructions(email, url)
         return Response({'success': 'Instructions sent to email.'},
                         status=status.HTTP_200_OK)
 
@@ -75,7 +75,7 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data.get('uidb64')
         token = serializer.validated_data.get('token')
-        if not user or not check_token(user, token):
+        if not user or not utils.check_token(user, token):
             return Response(status=status.HTTP_404_NOT_FOUND)
         user.set_password(request.data['password'])
         user.save()

@@ -2,8 +2,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from corsheaders.defaults import default_headers
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 if 'SECRET_KEY' not in os.environ:
@@ -30,6 +28,7 @@ INSTALLED_APPS = [
     'django_filters',
     'api.api_recipe',
     'api.api_user',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -43,7 +42,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'recipe_net.urls'
+ROOT_URLCONF = '_recipe_net_settings_.urls'
 
 TEMPLATES = [
     {
@@ -61,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'recipe_net.wsgi.application'
+WSGI_APPLICATION = '_recipe_net_settings_.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -150,3 +149,14 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'test@ya.ru')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '12345')
 
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:8080')
+
+REDIS_HOST = 'redis_recipe_net'
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:6379/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 18000}
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:6379/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
