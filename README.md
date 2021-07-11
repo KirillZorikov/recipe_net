@@ -16,7 +16,7 @@ Also, I learned about:
 * [Redis](https://redis.io/)
 
 For celery, the project has two tasks:
-* Sending emails for password recovery,
+* Sending emails for password recovery
 * Informing administrators about new users. Every day at midnight
 
 ### Project links:
